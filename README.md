@@ -48,7 +48,7 @@ import (
 	"github.com/danielgtaylor/huma/v2"
 	"github.com/danielgtaylor/huma/v2/adapters/humachi"
 	"github.com/go-chi/chi/v5"
-	"github.com/spa5k/huma-scs"
+	scs "github.com/spa5k/huma-scs"
 )
 
 // Create your router.
@@ -57,6 +57,10 @@ router := chi.NewMux()
 // Wrap the router with Huma to create an API instance.
 api := humachi.New(router, huma.DefaultConfig("My API", "1.0.0"))
 
+// Create a new session manager.
+sessionManager := scs.New()
+
+// Wrap the API with the session manager.
 api.UseMiddleware(sessionManager.LoadAndSave)
 
 huma.Register(api, huma.Operation{
